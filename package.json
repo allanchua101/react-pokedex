@@ -1,0 +1,25 @@
+{
+  "name": "ReactPokedex",
+  "version": "1.0.0",
+  "description": "ReactPokedex is an online version of Pokedex built on top of React JS, Flux and Gulp Connect",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allanchua101/ReactPokedex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/allanchua101/ReactPokedex/issues"
+  },
+  "homepage": "https://github.com/allanchua101/ReactPokedex#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-connect": "^5.5.0",
+    "gulp-open": "^3.0.1"
+  }
+}
