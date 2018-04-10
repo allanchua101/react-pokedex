@@ -5,6 +5,7 @@ const connect = require("gulp-connect"); // Run local server
 const open = require("gulp-open"); // Open URL in a web browser
 const browserify = require("browserify"); // Bundles JS
 const reactify = require("reactify"); // Transforms React JSX to JS
+const sass = require("gulp-sass"); // Transform SASS files to CSS
 const vinylStream = require("vinyl-source-stream"); // Use conventional text streams with Gulp
 const lint = require("gulp-eslint"); // Lint JS files, including JSX
 
@@ -16,7 +17,9 @@ let config = {
        images: "./src/**/*.png",
        html: "./src/*.html",
        js: "./src/**/*.js",
+       sass: "./src/**/*.scss",
        mainJs: "./src/main.js",
+       mainSass: "./src/styles/site.scss",
        dist: "./dist",
        favicon: "./src/favicon.ico"
    } 
@@ -27,6 +30,7 @@ const BROWSE_APP_TASK = "boot:browse-app";
 const COPY_SOURCE_TASK = "boot:copy-source";
 const REACTIFY_SOURCE_TASK = "boot:reactify-source-task";
 const LINT_RAW_SCRIPTS_TASK = "boot:lint-raw-scripts";
+const TRANSPILE_SASS_TASK = "boot:transpile-sass";
 const WATCH_SOURCE_TASK = "boot:watch-source";
 
 
@@ -87,6 +91,13 @@ gulp.task(REACTIFY_SOURCE_TASK, function() {
         .pipe(connect.reload());
 });
 
+gulp.task(TRANSPILE_SASS_TASK, function () {
+    return gulp.src(config.paths.mainSass)
+               .pipe(sass().on('error', sass.logError))
+               .pipe(gulp.dest(config.paths.dist + "/styles"))
+               .pipe(connect.reload());
+  });
+
 /**
  * Gulp task for linting JS and JSX files
  */
@@ -106,11 +117,13 @@ gulp.task(WATCH_SOURCE_TASK, function() {
         REACTIFY_SOURCE_TASK, 
         LINT_RAW_SCRIPTS_TASK
     ]);
+    gulp.watch(config.paths.sass, [TRANSPILE_SASS_TASK]);
 });
 
 gulp.task("default", [
     COPY_SOURCE_TASK, 
     REACTIFY_SOURCE_TASK, 
+    TRANSPILE_SASS_TASK,
     LINT_RAW_SCRIPTS_TASK,
     WATCH_SOURCE_TASK, 
     BROWSE_APP_TASK

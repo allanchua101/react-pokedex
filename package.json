@@ -31,5 +31,8 @@
     "react-router": "^4.2.0",
     "reactify": "^1.1.1",
     "vinyl-source-stream": "^2.0.0"
+  },
+  "devDependencies": {
+    "gulp-sass": "^4.0.1"
   }
 }

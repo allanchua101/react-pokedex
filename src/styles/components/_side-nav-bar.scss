@@ -1,0 +1,10 @@
+@import '../_config';
+
+.side-nav-bar {
+    background: $secondary-color;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 72px;
+}
