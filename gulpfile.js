@@ -4,8 +4,8 @@ const gulp = require("gulp");
 const connect = require("gulp-connect"); // Run local server
 const open = require("gulp-open"); // Open URL in a web browser
 const browserify = require("browserify"); // Bundles JS
-const reactify = require("reactify"); // Transforms React JSX to JS
 const sass = require("gulp-sass"); // Transform SASS files to CSS
+const babelify = require("babelify"); // Transpile ES 6 to Common JS
 const vinylStream = require("vinyl-source-stream"); // Use conventional text streams with Gulp
 const lint = require("gulp-eslint"); // Lint JS files, including JSX
 
@@ -16,9 +16,9 @@ let config = {
        dataSources: "./src/**/*.json",
        images: "./src/**/*.png",
        html: "./src/*.html",
-       js: "./src/**/*.js",
+       js: "./src/**/*.jsx",
        sass: "./src/**/*.scss",
-       mainJs: "./src/main.js",
+       mainJs: "./src/components/main.jsx",
        mainSass: "./src/styles/site.scss",
        dist: "./dist",
        favicon: "./src/favicon.ico"
@@ -28,7 +28,7 @@ let config = {
 const START_CONNECT_TASK = "boot:start-connect";
 const BROWSE_APP_TASK = "boot:browse-app";
 const COPY_SOURCE_TASK = "boot:copy-source";
-const REACTIFY_SOURCE_TASK = "boot:reactify-source-task";
+const TRANSPILE_JSX_TASK = "boot:reactify-transpile-jsx";
 const LINT_RAW_SCRIPTS_TASK = "boot:lint-raw-scripts";
 const TRANSPILE_SASS_TASK = "boot:transpile-sass";
 const WATCH_SOURCE_TASK = "boot:watch-source";
@@ -81,9 +81,9 @@ gulp.task(COPY_SOURCE_TASK, function() {
  *  - Use gulp to transfer the bundle to distribution scripts
  *  - Reload connect server
  */
-gulp.task(REACTIFY_SOURCE_TASK, function() {
+gulp.task(TRANSPILE_JSX_TASK, function() {
     browserify(config.paths.mainJs)
-        .transform(reactify)
+        .transform(babelify, {presets: ["es2015", "react"]})
         .bundle()
         .on("error", console.error.bind(console))
         .pipe(vinylStream("main.min.js"))
@@ -113,8 +113,8 @@ gulp.task(LINT_RAW_SCRIPTS_TASK, function () {
 gulp.task(WATCH_SOURCE_TASK, function() {
     gulp.watch(config.paths.html, [COPY_SOURCE_TASK]);
     gulp.watch(config.paths.js, [
+        TRANSPILE_JSX_TASK,
         COPY_SOURCE_TASK, 
-        REACTIFY_SOURCE_TASK, 
         LINT_RAW_SCRIPTS_TASK
     ]);
     gulp.watch(config.paths.sass, [TRANSPILE_SASS_TASK]);
@@ -122,7 +122,7 @@ gulp.task(WATCH_SOURCE_TASK, function() {
 
 gulp.task("default", [
     COPY_SOURCE_TASK, 
-    REACTIFY_SOURCE_TASK, 
+    TRANSPILE_JSX_TASK, 
     TRANSPILE_SASS_TASK,
     LINT_RAW_SCRIPTS_TASK,
     WATCH_SOURCE_TASK, 
