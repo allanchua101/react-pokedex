@@ -17,7 +17,8 @@ let config = {
        html: "./src/*.html",
        js: "./src/**/*.js",
        mainJs: "./src/main.js",
-       dist: "./dist"
+       dist: "./dist",
+       favicon: "./src/favicon.ico"
    } 
 };
 
@@ -61,7 +62,8 @@ gulp.task(COPY_SOURCE_TASK, function() {
     gulp.src([
             config.paths.html,
             config.paths.images,
-            config.paths.dataSources
+            config.paths.dataSources,
+            config.paths.favicon
         ])
         .pipe(gulp.dest(config.paths.dist))
         .pipe(connect.reload());
