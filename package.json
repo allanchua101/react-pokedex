@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/allanchua101/ReactPokedex#readme",
   "dependencies": {
+    "browserify": "^16.1.1",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.5.0",
-    "gulp-open": "^3.0.1"
+    "gulp-open": "^3.0.1",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^2.0.0"
   }
 }
