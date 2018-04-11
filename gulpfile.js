@@ -118,7 +118,10 @@ gulp.task(WATCH_SOURCE_TASK, function() {
         TRANSPILE_JSX_TASK,
         COPY_SOURCE_TASK
     ]);
-    gulp.watch(config.paths.sass, [TRANSPILE_SASS_TASK]);
+    gulp.watch(config.paths.sass, [
+        TRANSPILE_SASS_TASK, 
+        COPY_SOURCE_TASK
+    ]);
 });
 
 gulp.task("default", [
