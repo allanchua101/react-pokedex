@@ -8,6 +8,7 @@ class MainPanel extends React.Component {
             <div>
                 <SideNav />
                 <h1 id='page-title'>Pokedex</h1>
+                {/* Implement factory method and data feeder here */}
                 <PokemonCard />
                 <PokemonCard />
                 <PokemonCard />
@@ -17,7 +18,17 @@ class MainPanel extends React.Component {
                 <PokemonCard />                
                 <PokemonCard />                
                 <PokemonCard />                
+                <PokemonCard />  
+                <PokemonCard />
+                <PokemonCard />
+                <PokemonCard />
                 <PokemonCard />                
+                <PokemonCard />                
+                <PokemonCard />                
+                <PokemonCard />                
+                <PokemonCard />                
+                <PokemonCard />                
+                <PokemonCard />               
                 <div class="clearfix"></div>
             </div>
         );
