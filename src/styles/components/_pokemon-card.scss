@@ -34,7 +34,19 @@
 
 @media (min-width: 524px) {
     .pokemon-card {
-        width: 160px;
+        width: calc(50% - 40px);
         margin: 0 32px 32px 0;
+    }
+}
+
+@media (min-width: 728px) {
+    .pokemon-card {
+        width: calc(25% - 40px);
+    }
+}
+
+@media (min-width: 1200px) {
+    .pokemon-card {
+        width: calc(20% - 40px);
     }
 }
