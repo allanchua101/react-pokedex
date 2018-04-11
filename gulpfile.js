@@ -103,7 +103,7 @@ gulp.task(TRANSPILE_SASS_TASK, function () {
  */
 gulp.task(LINT_RAW_SCRIPTS_TASK, function () {
     return gulp.src(config.paths.js)
-               .pipe(lint({ config: 'eslint.config.json' }))
+               .pipe(lint({ configFile: 'eslint.config.json' }))
                .pipe(lint.format());
 });
 
