@@ -1,11 +1,22 @@
 <html>
-
 <head>
     <title>React Pokedex</title>
     <!-- Critical Render CSS -->
     <style type="text/css">
+        @font-face {
+            font-family: 'Roboto';
+            src: url('Roboto-ThinItalic-webfont.eot');
+            src: url('Roboto-ThinItalic-webfont.eot?#iefix') format('embedded-opentype'),
+                url('Roboto-ThinItalic-webfont.woff') format('woff'),
+                url('Roboto-ThinItalic-webfont.ttf') format('truetype'),
+                url('Roboto-ThinItalic-webfont.svg#RobotoThinItalic') format('svg');
+            font-weight: 200;
+            font-style: italic;
+        }
+
         html,
         body {
+            font-family: 'Roboto Light';
             width: 100%;
             padding: 0;
             margin: 0;
@@ -31,8 +42,8 @@
 
             #app {
                 min-height: calc(100% - 192px);
-                min-width: calc(100% - 256px);
-                padding: 64px;
+                min-width: calc(100% - 330px);
+                padding: 64px 64px 64px 136px;
                 margin: 0 64px 0 64px;
                 box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
                 position: relative;

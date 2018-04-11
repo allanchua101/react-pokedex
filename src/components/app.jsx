@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SideNav from './side-navigation-bar.jsx';
+import MainPanel from './main-panel.jsx';
 
 ReactDOM.render(
-  <SideNav />,
+  <MainPanel />,
   document.getElementById('app')
 );
