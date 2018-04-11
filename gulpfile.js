@@ -18,7 +18,7 @@ let config = {
        html: "./src/*.html",
        js: "./src/**/*.jsx",
        sass: "./src/**/*.scss",
-       mainJs: "./src/components/main.jsx",
+       appJSX: "./src/components/app.jsx",
        mainSass: "./src/styles/site.scss",
        dist: "./dist",
        favicon: "./src/favicon.ico"
@@ -82,7 +82,7 @@ gulp.task(COPY_SOURCE_TASK, function() {
  *  - Reload connect server
  */
 gulp.task(TRANSPILE_JSX_TASK, function() {
-    browserify(config.paths.mainJs)
+    browserify(config.paths.appJSX)
         .transform(babelify, {presets: ["es2015", "react"]})
         .bundle()
         .on("error", console.error.bind(console))
@@ -103,8 +103,9 @@ gulp.task(TRANSPILE_SASS_TASK, function () {
  */
 gulp.task(LINT_RAW_SCRIPTS_TASK, function () {
     return gulp.src(config.paths.js)
-               .pipe(lint({ configFile: 'eslint.config.json' }))
-               .pipe(lint.format());
+               .pipe(lint({ config: 'eslint.config.json' }))
+               .pipe(lint.format())
+               .pipe(lint.failOnError());
 });
 
 /**
@@ -113,9 +114,9 @@ gulp.task(LINT_RAW_SCRIPTS_TASK, function () {
 gulp.task(WATCH_SOURCE_TASK, function() {
     gulp.watch(config.paths.html, [COPY_SOURCE_TASK]);
     gulp.watch(config.paths.js, [
+        LINT_RAW_SCRIPTS_TASK,
         TRANSPILE_JSX_TASK,
-        COPY_SOURCE_TASK, 
-        LINT_RAW_SCRIPTS_TASK
+        COPY_SOURCE_TASK
     ]);
     gulp.watch(config.paths.sass, [TRANSPILE_SASS_TASK]);
 });
