@@ -9,7 +9,8 @@ class PokemonCard extends React.Component {
             <div className='pokemon-card'>
                 <img src={imageUrl} class='avatar' />
                 <div class='info-panel'>
-                    <p class='cardname'>{data.id} - {data.ename}</p>
+                    <p class='card-number'>{data.id}</p>
+                    <p class='cardname'>{data.ename}</p>
                 </div>
             </div>
         );
