@@ -7,15 +7,28 @@ class MainPanel extends React.Component {
         super();
         this.state = {
             pokemons: [],
-            visiblePokemons: [{
-                ename: 'Bulbasaur',
-                id: '001',
-            }, {
-                ename: 'Ivysaur',
-                id: '002',
-            }],
-            loaded: false
+            visiblePokemons: [],
+            pageSize: 20,
+            page: 1
         };
+    }
+    componentDidMount() {
+        if (this.state.pokemons.length === 0) {
+            fetch('/data/pokedex.json')
+                .then(results => {
+                    return results.json();
+                })
+                .then(data => {
+                    let pageOffset = ((this.state.page - 1) * this.state.pageSize);
+                    let lastItemIndex = (pageOffset + this.state.pageSize);
+                    let dataClone = JSON.parse(JSON.stringify(data));
+                    
+                    this.setState({ 
+                        pokemons: data,
+                        visiblePokemons: dataClone.slice(pageOffset, lastItemIndex)
+                    })
+                });
+        }
     }
     render() {
         return (

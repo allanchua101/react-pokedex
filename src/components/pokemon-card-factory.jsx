@@ -5,11 +5,11 @@ class PokemonCardFactory extends React.Component {
     render() {
         let { pokemons } = this.props;
         let visibleItems = pokemons.map((pokemon) => {
-            return <PokemonCard data={pokemon} />;
+            return <PokemonCard key={pokemon.id} data={pokemon} />;
         });
 
         return (
-            <div class='pokemon-list'>
+            <div className='pokemon-list'>
                 {visibleItems}
             </div>
         );
