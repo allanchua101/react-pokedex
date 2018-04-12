@@ -18,12 +18,9 @@
 
     .avatar {
         display: block;
-        height: auto;
+        margin: 8px auto;
         max-width: 100%;
-        margin-left:auto;
-        margin-right:auto;
-        margin-top: 8px;
-        margin-bottom: 8px;
+        max-height: 72px;
     }
 
     .info-panel {
