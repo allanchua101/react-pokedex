@@ -11,6 +11,7 @@ class PokemonCardFactory extends React.Component {
         return (
             <div className='pokemon-list'>
                 {visibleItems}
+                <div className='clearfix'></div>
             </div>
         );
     }

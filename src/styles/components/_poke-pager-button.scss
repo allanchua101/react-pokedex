@@ -1,0 +1,12 @@
+@import '../_config.scss';
+
+.poke-pager-button {
+    font-size: 18px;
+    background: none;
+    color: $primary-font-color;
+    border: none;
+    margin-right: 4px;
+    padding: 8px;
+    cursor: pointer;
+    outline: none;
+}
