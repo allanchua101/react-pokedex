@@ -5,12 +5,7 @@ class PokePagerControl extends React.Component {
     render() {
         let {currentPage = 1, totalPages = 0, pageSize = 10} = this.props;
         let pagePosition = (currentPage % 5);
-        let firstPage;
-
-        if(pagePosition === 0)
-            firstPage  = currentPage - 5;
-        else
-            firstPage = (currentPage - pagePosition);
+        let firstPage = (pagePosition === 0) ? (currentPage - 5) : (currentPage - pagePosition);
 
         return(
             <div className={'poke-pager-control ' + (totalPages <= 1 ? 'hidden' : '')}>

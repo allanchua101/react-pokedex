@@ -11,7 +11,7 @@ class MainPanel extends React.Component {
             visiblePokemons: [],
             pageSize: 15,
             totalPages: 0,
-            page: 10
+            page: 1
         };
     }
     componentDidMount() {
