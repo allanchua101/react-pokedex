@@ -12,4 +12,22 @@
     padding: 8px;
     cursor: pointer;
     outline: none;
+    
+    transition: background 0.8s;
+    
+    &:hover {
+        background: $tertiary-color radial-gradient(circle, transparent 1%, $tertiary-color, 1%) center/15000%;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.16), 
+                    0 4px 8px rgba(0,0,0,0.23);
+    }
+    
+    &:active {
+        background-color: $tertiary-color;
+        background-size: 100%;
+        transition: background 0s;
+    }
+
+    &.active {
+        background-color: $tertiary-color;
+    }
 }

@@ -1,6 +1,15 @@
 @import '../_config.scss';
 
 .poke-pager-control {
-    float: right;
-    padding-right: 32px;
+    float: left;
+    margin-left: 24px;
+    margin-bottom: 16px;
+}
+
+@media(min-width: 528px) {
+    .poke-pager-control {
+        float: right;
+        margin-left: 0;
+        padding-right: 12px;
+    }    
 }
