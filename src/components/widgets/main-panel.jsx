@@ -1,7 +1,10 @@
 import React from 'react';
+// Components
 import SideNav from './side-navigation-bar.jsx';
 import PokemonCardFactory from './pokemon-card-factory.jsx';
 import PokePagerControl from './poke-pager-control.jsx';
+import SearchBox from './search-box.jsx';
+// Utils
 import PokemonApiProxy from '../api-proxies/pokemon-api-proxy.jsx';
 import MessagingTopic from '../pubsub/messaging-topic.jsx';
 
@@ -58,6 +61,7 @@ class MainPanel extends React.Component {
             <div>
                 <SideNav />
                 <h1 id='page-title'>POKEDEX</h1>
+                <SearchBox />
                 <div className='clearfix'></div>
                 <PokemonCardFactory pokemons={this.state.visiblePokemons} />
                 <div className='clearfix'></div>

@@ -1,0 +1,37 @@
+@import '../_config.scss';
+
+$placeholder-color: white;
+$font-color: white;
+
+.search-box {
+    border: none;
+    border-bottom: 2px solid white;
+    background: none;
+    background-color: transparent;
+    color: $font-color;
+    font-size: 18px;
+    outline: none;
+    margin: 24px;
+    min-width: calc(100% - 48px);
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: $placeholder-color;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: $placeholder-color;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: $placeholder-color;
+}
+
+@media(min-width: 728px) {
+    .search-box {
+        min-width: 399px;
+        margin: 8px 16px 16px 0;
+        float: right;
+    }
+}
