@@ -3,9 +3,9 @@ import SideNav from './side-navigation-bar.jsx';
 import PokemonCardFactory from './pokemon-card-factory.jsx';
 import PokePagerControl from './poke-pager-control.jsx';
 import PokemonApiProxy from '../api-proxies/pokemon-api-proxy.jsx';
-import PagingTopic from '../pubsub/paging-topic.jsx';
+import MessagingTopic from '../pubsub/messaging-topic.jsx';
 
-function buildPagingTopic(instance) {
+function buildMessagingTopic(instance) {
     return instance.pagingTopic
                    .messages()
                    .subscribe(msg => {
@@ -37,8 +37,8 @@ class MainPanel extends React.Component {
             page: 1
         };
         this.pokemons = [];
-        this.pagingTopic = new PagingTopic();
-        this.subscription = buildPagingTopic(this);
+        this.pagingTopic = new MessagingTopic();
+        this.subscription = buildMessagingTopic(this);
     }
     componentDidMount() {
         /* Transfer this to service abstraction later */

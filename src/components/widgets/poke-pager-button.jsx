@@ -6,8 +6,8 @@ class PokePagerButton extends React.Component {
 
         return(
             <button className={'poke-pager-button ' 
-                                    + (currentPage === text ? ' active' : '')
-                                    + (isVisible ? '' : ' hidden')}
+                                    + (currentPage === text ? ' active' : ' ')
+                                    + (isVisible ? ' ' : ' hidden')}
                     onClick={onClick}
                     title={tooltip}
                     value={value}>{text}</button>

@@ -22,7 +22,7 @@ class PokePagerControl extends React.Component {
         this.goToPage(this.props.totalPages);
     }
     onGoToTargetPage(evt) {
-        this.goToPage(evt.target.value);
+        this.goToPage(parseInt(evt.target.value));
     }
     onNextPage() {
         let targetPage = this.props.currentPage;

@@ -1,10 +1,6 @@
 import {Subject} from 'rxjs/Subject';
 
-/**
- * Class that implement pub-sub mechanisms
- * for paging related events.
- */
-export default class PagingTopic {
+export default class MessagingTopic {
     constructor() {
         this.subject = new Subject();
     }
