@@ -11,11 +11,11 @@ class PokePagerControl extends React.Component {
             <div className={'poke-pager-control ' + (totalPages <= 1 ? 'hidden' : '')}>
                 <PokePagerButton text='&lt;&lt;' tooltip='Go to first page' />
                 <PokePagerButton text='&lt;' tooltip='Go to previous page' />
-                <PokePagerButton text={firstPage + 1} />
-                <PokePagerButton text={firstPage + 2} />
-                <PokePagerButton text={firstPage + 3} />
-                <PokePagerButton text={firstPage + 4} />
-                <PokePagerButton text={firstPage + 5} />
+                <PokePagerButton text={firstPage + 1} currentPage={currentPage} />
+                <PokePagerButton text={firstPage + 2} currentPage={currentPage} />
+                <PokePagerButton text={firstPage + 3} currentPage={currentPage} />
+                <PokePagerButton text={firstPage + 4} currentPage={currentPage} />
+                <PokePagerButton text={firstPage + 5} currentPage={currentPage} />
                 <PokePagerButton text='&gt;' tooltip='Go to next page' />
                 <PokePagerButton text='&gt;&gt;' tooltip='Go to last page' />
             </div>

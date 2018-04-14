@@ -40,12 +40,12 @@ class MainPanel extends React.Component {
             <div>
                 <SideNav />
                 <h1 id='page-title'>POKEDEX</h1>
+                <div className='clearfix'></div>
+                <PokemonCardFactory pokemons={this.state.visiblePokemons} />
+                <div className='clearfix'></div>
                 <PokePagerControl currentPage={this.state.page}
                     totalPages={this.state.totalPages}
                     pageSize={this.state.pageSize} />
-                <div className='clearfix'></div>
-
-                <PokemonCardFactory pokemons={this.state.visiblePokemons} />
                 <div className='clearfix'></div>
             </div>
         );
