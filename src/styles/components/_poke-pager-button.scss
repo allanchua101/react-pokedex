@@ -2,8 +2,11 @@
 
 .poke-pager-button {
     font-size: 18px;
-    background: none;
+    background-image: none;
+    background-color: $primary-tint-color;
     color: $primary-font-color;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 
+                0 3px 6px rgba(0,0,0,0.23);
     border: none;
     margin-right: 4px;
     padding: 8px;
