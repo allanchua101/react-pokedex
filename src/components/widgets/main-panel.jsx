@@ -1,21 +1,53 @@
 import React from 'react';
-// Components
 import SideNav from './side-navigation-bar.jsx';
 import PokemonCardFactory from './pokemon-card-factory.jsx';
 import PokePagerControl from './poke-pager-control.jsx';
 import SearchBox from './search-box.jsx';
-// Utils
 import PokemonApiProxy from '../api-proxies/pokemon-api-proxy.jsx';
 import MessagingTopic from '../pubsub/messaging-topic.jsx';
 
-function buildMessagingTopic(instance) {
-    return instance.pagingTopic
-                   .messages()
-                   .subscribe(msg => {
-                       var nextState = getPaginatedState(instance.state.pageSize, msg.value, instance.pokemons);
-                       
-                       instance.setState(nextState);
-                    });
+function handlePagingMessages(instance) {
+    instance.pagingTopic
+        .messages()
+        .subscribe(msg => {
+            var nextState = getPaginatedState(instance.state.pageSize, msg.value, instance.pokemons);
+
+            instance.setState(nextState);
+        });
+}
+
+function filterPokemonsByName(data, name) {
+    let output = [];
+    let smallCapsName = name.toLowerCase();
+
+    if (name) {
+        for (let i = 0, len = data.length; i < len; i++) {
+            const item = data[i];
+
+            if (item.ename.toLowerCase().indexOf(smallCapsName) > -1)
+                output.push(item);
+        }
+    } else {
+        const clonedData = data;
+
+        output = (clonedData);
+    }
+
+    return output;
+}
+
+function handleFilterMessages(instance) {
+    instance.filteringTopic
+        .messages()
+        .subscribe(msg => {
+            var filteredPokemons = filterPokemonsByName(instance.pokemons, msg);
+            var nextState = getPaginatedState(
+                                instance.state.pageSize, instance.state.page, 
+                                filteredPokemons
+                            );
+
+            instance.setState(nextState);
+        });
 }
 
 function getPaginatedState(pageSize, page, data) {
@@ -40,8 +72,13 @@ class MainPanel extends React.Component {
             page: 1
         };
         this.pokemons = [];
+
         this.pagingTopic = new MessagingTopic();
-        this.subscription = buildMessagingTopic(this);
+        handlePagingMessages(this);
+
+        this.filteringTopic = new MessagingTopic();
+        handleFilterMessages(this);
+
     }
     componentDidMount() {
         /* Transfer this to service abstraction later */
@@ -61,14 +98,14 @@ class MainPanel extends React.Component {
             <div>
                 <SideNav />
                 <h1 id='page-title'>POKEDEX</h1>
-                <SearchBox />
+                <SearchBox filteringTopic={this.filteringTopic} />
                 <div className='clearfix'></div>
                 <PokemonCardFactory pokemons={this.state.visiblePokemons} />
                 <div className='clearfix'></div>
                 <PokePagerControl currentPage={this.state.page}
-                                  totalPages={this.state.totalPages}
-                                  pagingTopic={this.pagingTopic}
-                                  pageSize={this.state.pageSize} />
+                    totalPages={this.state.totalPages}
+                    pagingTopic={this.pagingTopic}
+                    pageSize={this.state.pageSize} />
                 <div className='clearfix'></div>
             </div>
         );

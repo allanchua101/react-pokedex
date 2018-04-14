@@ -18,19 +18,22 @@ $font-color: white;
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: $placeholder-color;
     opacity: 1; /* Firefox */
+    font-style: italic;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: $placeholder-color;
+    font-style: italic;
 }
 
 ::-ms-input-placeholder { /* Microsoft Edge */
     color: $placeholder-color;
+    font-style: italic;
 }
 
 @media(min-width: 728px) {
     .search-box {
-        min-width: 399px;
+        min-width: 320px;
         margin: 8px 16px 16px 0;
         float: right;
     }
