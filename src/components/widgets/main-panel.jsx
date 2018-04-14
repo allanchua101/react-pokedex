@@ -10,7 +10,8 @@ function handlePagingMessages(instance) {
     instance.pagingTopic
         .messages()
         .subscribe(msg => {
-            var nextState = getPaginatedState(instance.state.pageSize, msg.value, instance.pokemons);
+            let pokemons = filterPokemonsByName(instance.pokemons, instance.state.filterByName);
+            let nextState = getPaginatedState(instance.state.pageSize, msg.value, pokemons);
 
             instance.setState(nextState);
         });
@@ -18,9 +19,10 @@ function handlePagingMessages(instance) {
 
 function filterPokemonsByName(data, name) {
     let output = [];
-    let smallCapsName = name.toLowerCase();
 
     if (name) {
+        let smallCapsName = (name).toLowerCase();
+
         for (let i = 0, len = data.length; i < len; i++) {
             const item = data[i];
 
@@ -38,12 +40,13 @@ function handleFilterMessages(instance) {
     instance.filteringTopic
         .messages()
         .subscribe(msg => {
-            var filteredPokemons = filterPokemonsByName(instance.pokemons, msg);
-            var nextState = getPaginatedState(
-                                instance.state.pageSize, instance.state.page, 
+            let filteredPokemons = filterPokemonsByName(instance.pokemons, msg);
+            let nextState = getPaginatedState(
+                                instance.state.pageSize, 1, 
                                 filteredPokemons
                             );
 
+            nextState.filterByName = msg;
             instance.setState(nextState);
         });
 }
@@ -67,6 +70,7 @@ class MainPanel extends React.Component {
             visiblePokemons: [],
             pageSize: 15,
             totalPages: 0,
+            filterByName: null,
             page: 1
         };
         this.pokemons = [];
