@@ -28,9 +28,7 @@ function filterPokemonsByName(data, name) {
                 output.push(item);
         }
     } else {
-        const clonedData = data;
-
-        output = (clonedData);
+        output = data;
     }
 
     return output;
