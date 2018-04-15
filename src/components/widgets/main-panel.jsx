@@ -3,7 +3,10 @@ import SideNav from './side-navigation-bar.jsx';
 import PokemonCardFactory from './pokemon-card-factory.jsx';
 import PokePagerControl from './poke-pager-control.jsx';
 import SearchBox from './search-box.jsx';
+// Proxies
 import PokemonApiProxy from '../api-proxies/pokemon-api-proxy.jsx';
+import PokeTypeApiProxy from '../api-proxies/poketype-api-proxy.jsx';
+// Utilities
 import MessagingTopic from '../pubsub/messaging-topic.jsx';
 import PaginationUtility from '../utils/pagination-utility.jsx';
 // Queries
@@ -12,6 +15,19 @@ import FilterByPokeTypeQuery from '../isomorphic-queries/filter-by-poketype-quer
 import FilterByIdQuery from '../isomorphic-queries/filter-by-id-query.jsx';
 
 let DEFAULT_PAGE = 1;
+
+function buildDefaultState() {
+    return {
+        pageItems: [],
+        pageSize: 15,
+        totalPages: 0,
+        idQuery: null,
+        nameQuery: null,
+        searchQuery: null,
+        typeQuery: null,
+        page: DEFAULT_PAGE
+    };
+}
 
 function buildTopic(callback) {
     var topic = new MessagingTopic();
@@ -60,34 +76,39 @@ function handlePagingMessages(instance) {
     });
 }
 
+function loadPokemons(instance) {
+    if (instance.pokemons.length === 0) {
+        (new PokemonApiProxy()).loadData(data => {
+            let nextState = (new PaginationUtility()).execute(instance.state.pageSize, instance.state.page, data);
+
+            instance.pokemons = data;
+            instance.setState(nextState);
+        });
+    }
+}
+
+function loadTypes(instance) {
+    if(instance.types.length === 0) {
+        (new PokeTypeApiProxy()).loadData(data => {
+            instance.types = data;
+        });
+    }
+}
+
 class MainPanel extends React.Component {
     constructor() {
         super();
-        this.state = {
-            pageItems: [],
-            pageSize: 15,
-            totalPages: 0,
-            idQuery: null,
-            nameQuery: null,
-            searchQuery: null,
-            typeQuery: null,
-            page: DEFAULT_PAGE
-        };
+        this.state = buildDefaultState();
         this.pokemons = [];
+        this.types = [];
 
         this.pagingTopic = handlePagingMessages(this);
         this.searchTopic = handleSearchMessages(this);
         this.filterTopic = handleFilterMessages(this);
     }
     componentDidMount() {
-        if (this.pokemons.length === 0) {
-            (new PokemonApiProxy()).loadData(data => {
-                let nextState = (new PaginationUtility()).execute(this.state.pageSize, this.state.page, data);
-
-                this.pokemons = data;
-                this.setState(nextState);
-            });
-        }
+        loadPokemons(this);
+        loadTypes(this);
     }
     render() {
         return (
