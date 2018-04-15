@@ -37,7 +37,7 @@ class SideNav extends React.Component {
         this.publishEvent();
     }
     onPokeTypeChanged(evt) {
-        this.typeQuery = evt.target.value;
+        this.typeQuery = JSON.parse(evt.target.value);
         this.publishEvent();
     }
     onPokeIdChanged(evt) {

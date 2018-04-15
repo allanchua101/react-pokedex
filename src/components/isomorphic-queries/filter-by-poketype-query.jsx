@@ -1,9 +1,9 @@
 export default class FilterByPokeTypeQuery {
-    execute(data, type) {
+    execute(data, pokeType) {
         let output = [];
 
-        if (type && type.ename !== 'All') {
-            let test = JSON.stringify(type);
+        if (pokeType && pokeType.ename !== 'All') {
+            let test = JSON.stringify(pokeType);
 
             for (let i = 0, len = data.length; i < len; i++) {
                 let item = data[i];
