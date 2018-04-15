@@ -1,4 +1,5 @@
 import React from 'react';
+import MaterializedSelect from './materialized-select.jsx';
 
 class SideNav extends React.Component {
     constructor(props) {
@@ -31,15 +32,23 @@ class SideNav extends React.Component {
         this.publishEvent();
     }
     render() {
+        let {poketypes} = this.props;
+        let items = [];
+
+        items.push({ ename: "All" });
+        items = items.concat(poketypes);
+
         return (
             <div className='side-nav-bar opened'>
                 <div className='side-nav-form'>
                     <h2>Configuration</h2>
                     <hr />
                     <h3>Filter List</h3>
-                    <input type='text' className='filter-box' onChange={this.onPokeIdChanged} placeholder='ID' required="required"/>
-                    <input type='text' className='filter-box' onChange={this.onPokeNameChanged} placeholder='Pokemon Name' required="required" />
-                    <input type='text' className='filter-box' onChange={this.onPokeTypeChanged} placeholder='Type' required="required" />
+                    <input type='text' className='filter-box' onChange={this.onPokeIdChanged} placeholder='ID' required='required'/>
+                    <input type='text' className='filter-box' onChange={this.onPokeNameChanged} placeholder='Pokemon Name' required='required' />
+                    <MaterializedSelect items={items} 
+                                        textProperty='ename' keyProperty='ename'
+                                        label='Pokemon Type' onChange={this.onPokeTypeChanged}/>
                 </div>                    
             </div>
         );

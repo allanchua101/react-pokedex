@@ -19,6 +19,7 @@ let DEFAULT_PAGE = 1;
 function buildDefaultState() {
     return {
         pageItems: [],
+        poketypes: [],
         pageSize: 15,
         totalPages: 0,
         idQuery: null,
@@ -43,7 +44,7 @@ function getNextState(instance, searchQuery, page, filter) {
     pokemons = (new FilterByIdQuery()).execute(pokemons, filter.idQuery);
     pokemons = (new FilterByNameQuery).execute(pokemons, filter.nameQuery);
     pokemons = (new FilterByNameQuery()).execute(pokemons, searchQuery);
-    pokemons = (new FilterByPokeTypeQuery()).execute(pokemons, instance.types, filter.typeQuery);
+    pokemons = (new FilterByPokeTypeQuery()).execute(pokemons, filter.typeQuery);
 
     return (new PaginationUtility()).execute(instance.state.pageSize, page, pokemons);
 }
@@ -88,9 +89,11 @@ function loadPokemons(instance) {
 }
 
 function loadTypes(instance) {
-    if(instance.types.length === 0) {
+    if(instance.state.poketypes.length === 0) {
         (new PokeTypeApiProxy()).loadData(data => {
-            instance.types = data;
+            instance.setState({
+                poketypes: data
+            });
         });
     }
 }
@@ -100,7 +103,6 @@ class MainPanel extends React.Component {
         super();
         this.state = buildDefaultState();
         this.pokemons = [];
-        this.types = [];
 
         this.pagingTopic = handlePagingMessages(this);
         this.searchTopic = handleSearchMessages(this);
@@ -113,14 +115,14 @@ class MainPanel extends React.Component {
     render() {
         return (
             <div>
-                <SideNav filterTopic={this.filterTopic} />
+                <SideNav filterTopic={this.filterTopic} poketypes={this.state.poketypes} />
                 <h1 id='page-title'>POKEDEX</h1>
                 <SearchBox searchTopic={this.searchTopic} />
                 <div className='clearfix'></div>
                 <PokemonCardFactory pokemons={this.state.pageItems} />
                 <div className='clearfix'></div>
                 <PokePagerControl currentPage={this.state.page} totalPages={this.state.totalPages}
-                    pagingTopic={this.pagingTopic} pageSize={this.state.pageSize} />
+                                  pagingTopic={this.pagingTopic} pageSize={this.state.pageSize} />
                 <div className='clearfix'></div>
             </div>
         );
