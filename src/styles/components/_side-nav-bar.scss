@@ -1,12 +1,31 @@
 @import '../_config';
 
 .side-nav-bar {
-    background: $secondary-color;
+    background-color: $secondary-color;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     min-height: 72px;
+
+    h2 {
+        margin: 0 0 24px 0;
+    }
+
+    .filter-box {
+        min-width: 100%;
+        border: none;
+        border-bottom: 4px solid white;
+        background: none;
+        background-color: transparent;
+        font-size: 16px;
+        margin-top: 24px;
+        outline: none;
+    }
+
+    &.opened {
+        min-height: 200px;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -16,5 +35,27 @@
         left: 0;
         right: auto;
         width: 72px;
+
+        .side-nav-form {
+            padding: 24px;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            display: none;
+            background-color: $secondary-color;
+            overflow: hidden;
+            position: absolute;
+        }
+
+        &.opened {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+
+            .side-nav-form {
+                width: 400px;
+                display: block;
+            }
+        }
     }
 }
