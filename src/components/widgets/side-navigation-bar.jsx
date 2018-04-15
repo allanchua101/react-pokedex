@@ -8,9 +8,9 @@ class SideNav extends React.Component {
                     <h2>Configuration</h2>
                     <hr />
                     <h3>Filter List</h3>
-                    <input type='text' className='filter-box' placeholder='ID' />
-                    <input type='text' className='filter-box' placeholder='Pokemon Name' />
-                    <input type='text' className='filter-box' placeholder='Type' />
+                    <input type='text' className='filter-box' placeholder='ID' required="required"/>
+                    <input type='text' className='filter-box' placeholder='Pokemon Name' required="required" />
+                    <input type='text' className='filter-box' placeholder='Type' required="required" />
                 </div>                    
             </div>
         );
