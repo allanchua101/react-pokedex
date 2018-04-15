@@ -3,11 +3,11 @@ import React from 'react';
 class SearchBox extends React.Component {
     constructor(props) {
         super();
-        this.filteringTopic = props.filteringTopic;
+        this.searchTopic = props.searchTopic;
         this.onSearchChanged = this.onSearchChanged.bind(this);
     }
     onSearchChanged(evt) {
-        this.filteringTopic.publish(evt.target.value);
+        this.searchTopic.publish(evt.target.value);
     }
     render() {
         return (

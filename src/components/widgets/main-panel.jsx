@@ -5,90 +5,85 @@ import PokePagerControl from './poke-pager-control.jsx';
 import SearchBox from './search-box.jsx';
 import PokemonApiProxy from '../api-proxies/pokemon-api-proxy.jsx';
 import MessagingTopic from '../pubsub/messaging-topic.jsx';
+import PaginationUtility from '../utils/pagination-utility.jsx';
+// Queries
+import FilterByNameQuery from '../isomorphic-queries/filter-by-name-query.jsx';
+import FilterByPokeTypeQuery from '../isomorphic-queries/filter-by-poketype-query.jsx';
+import FilterByIdQuery from '../isomorphic-queries/filter-by-id-query.jsx';
 
-function handlePagingMessages(instance) {
-    instance.pagingTopic
-        .messages()
-        .subscribe(msg => {
-            let pokemons = filterPokemonsByName(instance.pokemons, instance.state.filterByName);
-            let nextState = getPaginatedState(instance.state.pageSize, msg.value, pokemons);
+let DEFAULT_PAGE = 1;
 
-            instance.setState(nextState);
-        });
+function buildTopic(callback) {
+    var topic = new MessagingTopic();
+
+    topic.subscribe(callback);
+
+    return topic;
 }
 
-function filterPokemonsByName(data, name) {
-    let output = [];
+function getNextState(instance, searchQuery, page, filter) {
+    let pokemons = instance.pokemons;
+    
+    console.log(filter);
 
-    if (name) {
-        let smallCapsName = (name).toLowerCase();
+    pokemons = (new FilterByIdQuery()).execute(pokemons, filter.idQuery)
+    pokemons = (new FilterByNameQuery()).execute(pokemons, searchQuery);
+    pokemons = (new FilterByPokeTypeQuery()).execute(pokemons, instance.types, filter.typeQuery);
 
-        for (let i = 0, len = data.length; i < len; i++) {
-            const item = data[i];
-
-            if (item.ename.toLowerCase().indexOf(smallCapsName) > -1)
-                output.push(item);
-        }
-    } else {
-        output = data;
-    }
-
-    return output;
+    return (new PaginationUtility()).execute(instance.state.pageSize, page, pokemons);
 }
 
 function handleFilterMessages(instance) {
-    instance.filteringTopic
-        .messages()
-        .subscribe(msg => {
-            let filteredPokemons = filterPokemonsByName(instance.pokemons, msg);
-            let nextState = getPaginatedState(
-                                instance.state.pageSize, 1, 
-                                filteredPokemons
-                            );
+    return buildTopic(msg => {
+        let nextState = getNextState(instance, instance.state.searchQuery, DEFAULT_PAGE, msg);
 
-            nextState.filterByName = msg;
-            instance.setState(nextState);
-        });
+        nextState.nameQuery = msg.nameQuery;
+        nextState.idQuery = msg.idQuery;
+        nextState.typeQuery = msg.typeQuery;
+        instance.setState(nextState);
+    });
 }
 
-function getPaginatedState(pageSize, page, data) {
-    let pageOffset = ((page - 1) * pageSize);
-    let lastItemIndex = (pageOffset + pageSize);
-    const dataClone = data;
+function handleSearchMessages(instance) {
+    return buildTopic(msg => {
+        let nextState = getNextState(instance, msg, DEFAULT_PAGE, instance.state);
 
-    return {
-        page: page,
-        visiblePokemons: dataClone.slice(pageOffset, lastItemIndex),
-        totalPages: Math.ceil(data.length / pageSize)
-    };
+        nextState.searchQuery = msg;
+        instance.setState(nextState);
+    });
+}
+
+function handlePagingMessages(instance) {
+    return buildTopic(msg => {
+        let nextState = getNextState(instance, instance.state.searchQuery, msg.value, instance.state);
+
+        instance.setState(nextState);
+    });
 }
 
 class MainPanel extends React.Component {
     constructor() {
         super();
         this.state = {
-            visiblePokemons: [],
+            pageItems: [],
             pageSize: 15,
             totalPages: 0,
-            filterByName: null,
-            page: 1
+            idQuery: null,
+            nameQuery: null,
+            searchQuery: null,
+            typeQuery: null,
+            page: DEFAULT_PAGE
         };
         this.pokemons = [];
 
-        this.pagingTopic = new MessagingTopic();
-        handlePagingMessages(this);
-
-        this.filteringTopic = new MessagingTopic();
-        handleFilterMessages(this);
-
+        this.pagingTopic = handlePagingMessages(this);
+        this.searchTopic = handleSearchMessages(this);
+        this.filterTopic = handleFilterMessages(this);
     }
     componentDidMount() {
-        /* Transfer this to service abstraction later */
         if (this.pokemons.length === 0) {
-            var apiProxy = new PokemonApiProxy();
-
-            apiProxy.loadData(data => {
-                let nextState = getPaginatedState(this.state.pageSize, this.state.page, data);
+            (new PokemonApiProxy()).loadData(data => {
+                let nextState = (new PaginationUtility()).execute(this.state.pageSize, this.state.page, data);
 
                 this.pokemons = data;
                 this.setState(nextState);
@@ -98,16 +93,14 @@ class MainPanel extends React.Component {
     render() {
         return (
             <div>
-                <SideNav />
+                <SideNav filterTopic={this.filterTopic} />
                 <h1 id='page-title'>POKEDEX</h1>
-                <SearchBox filteringTopic={this.filteringTopic} />
+                <SearchBox searchTopic={this.searchTopic} />
                 <div className='clearfix'></div>
-                <PokemonCardFactory pokemons={this.state.visiblePokemons} />
+                <PokemonCardFactory pokemons={this.state.pageItems} />
                 <div className='clearfix'></div>
-                <PokePagerControl currentPage={this.state.page}
-                    totalPages={this.state.totalPages}
-                    pagingTopic={this.pagingTopic}
-                    pageSize={this.state.pageSize} />
+                <PokePagerControl currentPage={this.state.page} totalPages={this.state.totalPages}
+                    pagingTopic={this.pagingTopic} pageSize={this.state.pageSize} />
                 <div className='clearfix'></div>
             </div>
         );
