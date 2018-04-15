@@ -6,7 +6,7 @@ export default class FilterByIdQuery {
             for (let i = 0, len = data.length; i < len; i++) {
                 const item = data[i];
     
-                if (item.id === id)
+                if (item.id.indexOf(id) > -1)
                     output.push(item);
             }
         } else {

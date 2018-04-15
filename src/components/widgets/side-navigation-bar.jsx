@@ -14,7 +14,7 @@ class SideNav extends React.Component {
     publishEvent() {
         this.filterTopic.publish({
             typeQuery: this.typeQuery,
-            nameQuery: this.searchQuery,
+            nameQuery: this.nameQuery,
             idQuery: this.idQuery
         });
     }

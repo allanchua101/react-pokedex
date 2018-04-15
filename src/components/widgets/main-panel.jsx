@@ -23,10 +23,9 @@ function buildTopic(callback) {
 
 function getNextState(instance, searchQuery, page, filter) {
     let pokemons = instance.pokemons;
-    
-    console.log(filter);
 
-    pokemons = (new FilterByIdQuery()).execute(pokemons, filter.idQuery)
+    pokemons = (new FilterByIdQuery()).execute(pokemons, filter.idQuery);
+    pokemons = (new FilterByNameQuery).execute(pokemons, filter.nameQuery);
     pokemons = (new FilterByNameQuery()).execute(pokemons, searchQuery);
     pokemons = (new FilterByPokeTypeQuery()).execute(pokemons, instance.types, filter.typeQuery);
 
