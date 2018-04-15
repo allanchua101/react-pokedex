@@ -13,6 +13,8 @@ import PaginationUtility from '../utils/pagination-utility.jsx';
 import FilterByNameQuery from '../isomorphic-queries/filter-by-name-query.jsx';
 import FilterByPokeTypeQuery from '../isomorphic-queries/filter-by-poketype-query.jsx';
 import FilterByIdQuery from '../isomorphic-queries/filter-by-id-query.jsx';
+import SortByName from '../isomorphic-queries/sort-by-name.jsx';
+import SortByID from '../isomorphic-queries/sort-by-id.jsx';
 
 let DEFAULT_PAGE = 1;
 
@@ -26,6 +28,7 @@ function buildDefaultState() {
         nameQuery: null,
         searchQuery: null,
         typeQuery: null,
+        sortField: 'ID',
         page: DEFAULT_PAGE
     };
 }
@@ -45,6 +48,15 @@ function getNextState(instance, searchQuery, page, filter) {
     pokemons = (new FilterByNameQuery).execute(pokemons, filter.nameQuery);
     pokemons = (new FilterByNameQuery()).execute(pokemons, searchQuery);
     pokemons = (new FilterByPokeTypeQuery()).execute(pokemons, filter.typeQuery);
+
+    switch (filter.sortField) {
+        case 'Name':
+            pokemons = (new SortByName()).execute(pokemons);
+            break;
+        case 'ID':
+            pokemons = (new SortByID()).execute(pokemons);
+            break;
+    }
 
     return (new PaginationUtility()).execute(instance.state.pageSize, page, pokemons);
 }
@@ -89,7 +101,7 @@ function loadPokemons(instance) {
 }
 
 function loadTypes(instance) {
-    if(instance.state.poketypes.length === 0) {
+    if (instance.state.poketypes.length === 0) {
         (new PokeTypeApiProxy()).loadData(data => {
             instance.setState({
                 poketypes: data
@@ -122,7 +134,7 @@ class MainPanel extends React.Component {
                 <PokemonCardFactory pokemons={this.state.pageItems} />
                 <div className='clearfix'></div>
                 <PokePagerControl currentPage={this.state.page} totalPages={this.state.totalPages}
-                                  pagingTopic={this.pagingTopic} pageSize={this.state.pageSize} />
+                    pagingTopic={this.pagingTopic} pageSize={this.state.pageSize} />
                 <div className='clearfix'></div>
             </div>
         );
