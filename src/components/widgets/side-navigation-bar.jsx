@@ -1,13 +1,21 @@
 import React from 'react';
 import MaterializedSelect from './materialized-select.jsx';
 
-function buildSortDirections() {
+function buildSortFields() {
     return [{
         Name: 'ID'
     }, {
         Name: 'Pokemon Type'
     }, {
         Name: 'Name'
+    }];
+}
+
+function buildSortDirections() {
+    return [{
+        Name: 'Ascending'
+    }, {
+        Name: 'Descending'
     }];
 }
 
@@ -18,18 +26,21 @@ class SideNav extends React.Component {
         this.idQuery = null;
         this.searchQuery = null;
         this.sortField = 'ID';
+        this.sortDirection = 'Ascending';
         this.filterTopic = props.filterTopic;
         this.onPokeTypeChanged = this.onPokeTypeChanged.bind(this);
         this.onPokeIdChanged = this.onPokeIdChanged.bind(this);
         this.onPokeNameChanged = this.onPokeNameChanged.bind(this);
         this.onSortFieldChanged = this.onSortFieldChanged.bind(this);
+        this.onSortDirectionChanged = this.onSortDirectionChanged.bind(this);
     }
     publishEvent() {
         this.filterTopic.publish({
             typeQuery: this.typeQuery,
             nameQuery: this.nameQuery,
             idQuery: this.idQuery,
-            sortField: this.sortField
+            sortField: this.sortField,
+            sortDirection: this.sortDirection
         });
     }
     onPokeNameChanged(evt) {
@@ -46,6 +57,10 @@ class SideNav extends React.Component {
     }
     onSortFieldChanged(evt) {
         this.sortField = JSON.parse(evt.target.value).Name;
+        this.publishEvent();
+    }
+    onSortDirectionChanged(evt) {
+        this.sortDirection = JSON.parse(evt.target.value).Name;
         this.publishEvent();
     }
     render() {
@@ -67,8 +82,12 @@ class SideNav extends React.Component {
                                         label='Pokemon Type' onChange={this.onPokeTypeChanged} />
                     <hr />
                     <h3>Sort By</h3>
-                    <MaterializedSelect items={buildSortDirections()} textProperty='Name' keyProperty='Name' 
+                    <MaterializedSelect items={buildSortFields()} textProperty='Name' keyProperty='Name' 
                                         label='Pokemon Type' onChange={this.onSortFieldChanged} />
+                    <hr />
+                    <h3>Sort Direction</h3>
+                    <MaterializedSelect items={buildSortDirections()} textProperty='Name' keyProperty='Name' 
+                                        label='Sort Direction' onChange={this.onSortDirectionChanged} />
                 </div>
             </div>
         );

@@ -51,10 +51,10 @@ function getNextState(instance, searchQuery, page, filter) {
 
     switch (filter.sortField) {
         case 'Name':
-            pokemons = (new SortByName()).execute(pokemons);
+            pokemons = (new SortByName()).execute(pokemons, filter.sortDirection);
             break;
         case 'ID':
-            pokemons = (new SortByID()).execute(pokemons);
+            pokemons = (new SortByID()).execute(pokemons, filter.sortDirection);
             break;
     }
 
