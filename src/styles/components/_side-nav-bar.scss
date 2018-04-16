@@ -7,6 +7,13 @@
     left: 0;
     right: 0;
     min-height: 72px;
+    transition: min-height .5s;
+
+    .hamburger-menu {
+        position: absolute;
+        top: 20px;
+        right: 24px;
+    }
 
     h2 {
         margin: 0 0 24px 0;
@@ -53,6 +60,12 @@
         right: 0;
         left: auto;
         width: 72px;
+        transition: width .5s;
+
+        .hamburger-menu {
+            top: 24px;
+            right: 20px;
+        }
 
         .side-nav-form {
             top: 0;
