@@ -40,7 +40,6 @@ export default class SortByType {
     execute(data, pokeTypes, sortDirection='Ascending') {
         const dataClone = data;
 
-        console.log(pokeTypes);
         attachTypes(dataClone, pokeTypes);
 
         return dataClone.sort(sortDirection === 'Ascending' ? ascending : descending);
