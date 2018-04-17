@@ -15,6 +15,7 @@ import FilterByPokeTypeQuery from '../isomorphic-queries/filter-by-poketype-quer
 import FilterByIdQuery from '../isomorphic-queries/filter-by-id-query.jsx';
 import SortByName from '../isomorphic-queries/sort-by-name.jsx';
 import SortByID from '../isomorphic-queries/sort-by-id.jsx';
+import SortByType from '../isomorphic-queries/sort-by-type.jsx';
 
 let DEFAULT_PAGE = 1;
 
@@ -52,6 +53,9 @@ function getNextState(instance, searchQuery, page, filter) {
     switch (filter.sortField) {
         case 'Name':
             pokemons = (new SortByName()).execute(pokemons, filter.sortDirection);
+            break;
+        case 'Pokemon Type':
+            pokemons = (new SortByType()).execute(pokemons, instance.state.poketypes, filter.sortDirection);
             break;
         case 'ID':
             pokemons = (new SortByID()).execute(pokemons, filter.sortDirection);
