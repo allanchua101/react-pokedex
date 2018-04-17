@@ -131,7 +131,7 @@ class MainPanel extends React.Component {
                 <h1 id='page-title'>POKEDEX</h1>
                 <SearchBox searchTopic={this.searchTopic} />
                 <div className='clearfix'></div>
-                <PokemonCardFactory pokemons={this.state.pageItems} />
+                <PokemonCardFactory pokemons={this.state.pageItems} poketypes={this.state.poketypes} />
                 <div className='clearfix'></div>
                 <PokePagerControl currentPage={this.state.page} totalPages={this.state.totalPages}
                     pagingTopic={this.pagingTopic} pageSize={this.state.pageSize} />

@@ -34,14 +34,12 @@ class PokemonCard extends React.Component {
         });
     }
     render() {
-        let { data, isVisible, isExpanded } = this.props;
+        let { data, isVisible, isExpanded, types } = this.props;
         let imageUrl = `/images/thm/${data.id.toString()}${fixBrokenImageNames(data.ename)}.png`;
         let spriteUrl = `/images/spr/${data.id.toString()}MS.png`;
 
         if (this.props.isExpanded)
             imageUrl = `/images/img/${data.id.toString()}${fixBrokenImageNames(data.ename)}.png`;
-
-        console.log(data);
 
         return (
             <div className={'pokemon-card' + (isVisible ? '' : ' collapsed') + (isExpanded ? ' expanded' : '')}
@@ -52,6 +50,11 @@ class PokemonCard extends React.Component {
                 <div className='info-panel'>
                     <p className='card-number'>{data.id}</p>
                     <p className='cardname'>{data.ename}</p>
+                    <p className='card-prop show-on-expand'>
+                        {types.map(type => {
+                            return <span key={type} className='type-tag'>{type}</span>;
+                        })}
+                    </p>
                     <p className='card-prop show-on-expand'>Attack: {data.base.Attack}</p>
                     <p className='card-prop show-on-expand'>Defense: {data.base.Defense}</p>
                     <p className='card-prop show-on-expand'>HP: {data.base.HP}</p>

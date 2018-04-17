@@ -64,6 +64,16 @@
         display: none;
     }
 
+    .type-tag {
+        background-color: $secondary-color;
+        color: white;
+        font-size: 12px;
+        padding: 4px;
+        border-radius: 8px;
+        font-weight: bold;
+        margin-left: 4px;
+    }
+
 
     &.expanded {
         position: absolute;
