@@ -12,12 +12,28 @@ function fixBrokenImageNames(pokemonName) {
 }
 
 class PokemonCard extends React.Component {
+    constructor(props) {
+        super();
+        this.onPokemonCardTapped = this.onPokemonCardTapped.bind(this);
+    }
+    onPokemonCardTapped(evt) {
+        let isExpanded = this.props.isExpanded;
+        
+        this.props.messageBus.publish({
+            event: (isExpanded ? 'SHOW ALL' : 'HIDE ALL'),
+            originId: this.props.data.id
+        });
+    }
     render() {
-        let { data } = this.props;
+        let { data, isVisible, isExpanded } = this.props;
         let imageUrl = '/images/thm/' + data.id.toString() + fixBrokenImageNames(data.ename) + '.png';
 
+        if(this.props.isExpanded)
+            imageUrl = '/images/img/' + data.id.toString() + fixBrokenImageNames(data.ename) + '.png';
+
         return (
-            <div className='pokemon-card'>
+            <div className={'pokemon-card' + (isVisible ? '' : ' collapsed') + (isExpanded ? ' expanded' : '')} 
+                 title='Tap to see details' onClick={this.onPokemonCardTapped}>
                 <img src={imageUrl} className='avatar' />
                 <div className='info-panel'>
                     <p className='card-number'>{data.id}</p>
