@@ -1,0 +1,26 @@
+.close-marker {
+    position: absolute;
+    right: 32px;
+    top: 16px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+  }
+  .close-marker:hover {
+    opacity: 1;
+  }
+  .close-marker:before, .close-marker:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: white;
+  }
+  .close-marker:before {
+    transform: rotate(45deg);
+  }
+  .close-marker:after {
+    transform: rotate(-45deg);
+  }
+  

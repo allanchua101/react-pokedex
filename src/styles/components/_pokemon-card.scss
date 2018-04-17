@@ -39,10 +39,29 @@
         text-align: center;
     }
 
+    .sprite {
+        display: none;
+    }
+
     .cardname {
         margin-top: 4px;
+        margin-bottom: 12px;
         font-size: 16px;
         text-align: center;
+    }
+
+    .show-on-expand {
+        display: none;
+    }
+
+    .card-prop {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 8px;
+    }
+
+    .close-marker {
+        display: none;
     }
 
 
@@ -71,6 +90,21 @@
     
         .cardname {
             font-size: 32px;
+        }
+
+        .sprite {
+            display: block;
+            position: absolute;
+            top: 220px;
+            right: 24px;
+        }
+
+        .show-on-expand{
+            display: block;
+        }
+
+        .close-marker {
+            display: block;
         }
     }
 }
